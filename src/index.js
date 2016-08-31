@@ -32,17 +32,17 @@ const handlers = {
                 console.log('HTTP Request Successful...');
 
                 try {
-                    const monitoredStopVisit1 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney;
-                    const monitoredStopVisit2 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[1].MonitoredVehicleJourney;
+                    const monitoredStopVisit1 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0];
+                    const monitoredStopVisit2 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[1];
                     const nextBusStopsAway = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
-                    const outputSpeech = `The next bus is ${nextBusStopsAway}.`;
+                    let outputSpeech = `The next bus is ${nextBusStopsAway}. `;
 
                     if (monitoredStopVisit2) {
                         const followingBusStopsAway = monitoredStopVisit2.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
                         outputSpeech += `The bus after is ${followingBusStopsAway}`;    
                     }
 
-                    console.log('Output speech is ', outputSpeech);
+                    console.log('Output speech is: ', outputSpeech);
 
                     this.emit(':tell', outputSpeech);
 
