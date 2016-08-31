@@ -1,3 +1,5 @@
-HelloWorldIntent hello
-HelloWorldIntent say hello
-HelloWorldIntent say hello world
+BusTimeIntent next bus
+BusTimeIntent where is my next bus
+BusTimeIntent when is my next bus arriving
+BusTimeIntent bus time
+

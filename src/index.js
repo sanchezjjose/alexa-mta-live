@@ -20,11 +20,11 @@ const handlers = {
 
     'LaunchRequest': function () {
         console.log('Called LaunchRequest');
-        this.emit('SayHello');
+        this.emit('BusTimeIntent');
     },
     
-    'HelloWorldIntent': function () {
-        console.log('Called HelloWorldIntent');
+    'BusTimeIntent': function () {
+        console.log('Called BusTimeIntent');
 
         return request(stopMonitoringEndpoint, (error, response, body) => {
         
@@ -32,27 +32,33 @@ const handlers = {
                 console.log('HTTP Request Successful...');
 
                 try {
-                    const monitoredVehicle = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney;
-                    const distanceAway = monitoredVehicle.MonitoredCall.Extensions.Distances.PresentableDistance;
-                    const outputSpeech = `Your bus is ${distanceAway}`;
+                    const monitoredStopVisit1 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney;
+                    const monitoredStopVisit2 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[1].MonitoredVehicleJourney;
+                    const nextBusStopsAway = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
+                    const outputSpeech = `The next bus is ${nextBusStopsAway}.`;
+
+                    if (monitoredStopVisit2) {
+                        const followingBusStopsAway = monitoredStopVisit2.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
+                        outputSpeech += `The bus after is ${followingBusStopsAway}`;    
+                    }
+
+                    console.log('Output speech is ', outputSpeech);
 
                     this.emit(':tell', outputSpeech);
 
                 } catch (err) {
                     console.log('Error occurred', err);
-                    this.emit(':tell', `Sorry, mta live is unable to find your bus at the moment.`);
+
+                    this.emit(':tell', `Sorry, mta live does not show any buses being tracked at the moment. Please try again later.`);
                 }
 
             } else {
                 console.log('HTTP Request Failed...');
-                this.emit('SayHello');
+                console.log('Error occurred', err);
+
+                this.emit(':tell', 'An error occurred. Unable to fulfill request.');
             }
         });
-    },
-    
-    'SayHello': function () {
-        console.log('Called SayHello');
-        this.emit(':tell', 'Hello World!');
     }
 };
 

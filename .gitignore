@@ -1,3 +1,6 @@
+# Build Artifacts
+*.zip
+
 # Logs
 logs
 *.log
