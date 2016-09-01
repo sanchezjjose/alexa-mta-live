@@ -2,5 +2,4 @@
 
 zip -r dist/app.zip src/*
 
-aws s3 cp dist/app.zip s3://mta-live-node --profile home
-
+aws lambda update-function-code --function-name alexa-mta-live --zip-file fileb://dist/app.zip --profile home

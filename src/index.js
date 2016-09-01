@@ -34,12 +34,23 @@ const handlers = {
                 try {
                     const monitoredStopVisit1 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0];
                     const monitoredStopVisit2 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[1];
+
                     const nextBusStopsAway = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
-                    let outputSpeech = `The next bus is ${nextBusStopsAway}. `;
+                    const nextBusExpectedArrivalTime = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
+                    
+                    let outputSpeech = `The next bus is ${nextBusStopsAway}`;
+                    if (nextBusExpectedArrivalTime) {
+                        outputSpeech += `, and is arriving in 3 minutes`;
+                    }
 
                     if (monitoredStopVisit2) {
                         const followingBusStopsAway = monitoredStopVisit2.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
-                        outputSpeech += `The bus after is ${followingBusStopsAway}`;    
+                        const followingBusExpectedArrivalTime = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
+
+                        outputSpeech += `. The bus after is ${followingBusStopsAway}`;    
+                        if (followingBusExpectedArrivalTime) {
+                            outputSpeech += `, and is arriving in 10 minutes.`;
+                        }
                     }
 
                     console.log('Output speech is: ', outputSpeech);
