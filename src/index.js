@@ -38,18 +38,35 @@ const handlers = {
                     const nextBusStopsAway = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
                     const nextBusExpectedArrivalTime = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
                     
+                    const metersAway = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.DistanceFromCall;
+                    const milesAway = metersAway/1609.34; // convert meters to miles
+                    const guessedNextBusArrivalTime = Math.round(60*milesAway/50); // assumes driving 50 mph
+
                     let outputSpeech = `The next bus is ${nextBusStopsAway}`;
+
                     if (nextBusExpectedArrivalTime) {
                         outputSpeech += `, and is arriving in 3 minutes`;
+
+                    } else {
+                        outputSpeech += `, and is arriving in approximately ${guessedNextBusArrivalTime} minutes`;
                     }
 
+                    // TODO: when working make a function that builds the outputSpeech, and takes a MonitoredStopVisit object
                     if (monitoredStopVisit2) {
                         const followingBusStopsAway = monitoredStopVisit2.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
                         const followingBusExpectedArrivalTime = monitoredStopVisit1.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
 
+                        const metersAway = monitoredStopVisit2.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.DistanceFromCall;
+                        const milesAway = metersAway/1609.34; // convert meters to miles
+                        const guessedNextBusArrivalTime = Math.round(60*milesAway/50); // assumes driving 50 mph
+
                         outputSpeech += `. The bus after is ${followingBusStopsAway}`;    
+
                         if (followingBusExpectedArrivalTime) {
                             outputSpeech += `, and is arriving in 10 minutes.`;
+
+                        } else {
+                            outputSpeech += `, and is arriving in approximately ${guessedNextBusArrivalTime} minutes`;
                         }
                     }
 
