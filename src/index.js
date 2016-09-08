@@ -32,6 +32,10 @@ const handlers = {
                 console.log('HTTP Request Successful...');
 
                 try {
+                    // Just testing slots below
+                    const slots = this.event.request.intent.slots; 
+                    console.log(slots.Bus.value.replace(' ', '').toUpperCase());
+
                     const monitoredStopVisit1 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0];
                     const monitoredStopVisit2 = JSON.parse(body).Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[1];
 
