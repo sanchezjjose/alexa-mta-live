@@ -4,6 +4,7 @@ const Alexa = require('alexa-sdk');
 const request = require('request');
 
 // TODO: move apiKey to Environment Variable before deploying
+// http://stackoverflow.com/questions/29372278/aws-lambda-how-to-store-secret-to-external-api?noredirect=1&lq=1
 const apiKey = '7f7ac50a-def1-4470-a2fb-446e7a3ff580';
 const stopMonitoringServiceHost = 'bustime.mta.info/api/siri/stop-monitoring.json';
 const stopMonitoringServiceOptions = 'OperatorRef=MTA&MonitoringRef=552065&LineRef=MTABC_Q101&DirectionRef=1';
