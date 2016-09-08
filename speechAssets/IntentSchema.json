@@ -1,7 +1,14 @@
 {
   "intents": [
     {
-      "intent": "BusTimeIntent"
+      "intent": "BusTimeIntent",
+      "slots": [
+        {
+          "name": "Bus",
+          "type": "LIST_OF_BUSES"
+        }
+      ]
     }
   ]
 }
+

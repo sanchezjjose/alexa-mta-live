@@ -2,4 +2,6 @@ BusTimeIntent next bus
 BusTimeIntent where is my next bus
 BusTimeIntent when is my next bus arriving
 BusTimeIntent bus time
-
+BusTimeIntent where is the {Bus}
+BusTimeIntent when is the {Bus} arriving
+BusTimeIntent when is the next {Bus}
